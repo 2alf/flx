@@ -48,3 +48,4 @@ The resulting output revealed:
 PHOENIX_FLAG=itu[redacted]
 ```
 
+![alt text](image.png)

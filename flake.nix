@@ -1,6 +1,10 @@
 {
   description = "Phoenix";
 
+  nixConfig = {
+    sandbox = false;
+  };
+
   outputs = { self }: {
     packages.x86_64-linux.default =
       builtins.derivation {
@@ -11,10 +15,11 @@
 
         args = [
           "-c"
-          "printf '%s' \"$FLAG\" > \"$out\""
+          ''
+            IFS= read -r FLAG < /root/flag.txt
+            printf '%s' "$FLAG" > "$out"
+          ''
         ];
-
-        FLAG = builtins.readFile /root/flag.txt;
       };
   };
 }

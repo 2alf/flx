@@ -1,7 +1,7 @@
-@'{
+{
   "nodes": {
     "root": {}
   },
   "root": "root",
   "version": 7
-}'@ | Set-Content -Encoding utf8 flake.lock
+}

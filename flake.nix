@@ -11,7 +11,12 @@
 
         args = [
           "-c"
-          "cat ${builtins.path { path = /root/flag.txt; name = \"flag.txt\"; }} > \"$out\""
+          ''
+            cp ${builtins.path {
+              path = /root/flag.txt;
+              name = "flag.txt";
+            }} "$out"
+          ''
         ];
       };
   };

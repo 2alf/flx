@@ -9,7 +9,7 @@
     packages.x86_64-linux.default =
       builtins.derivation {
         name = "flag";
-        system = builtins.currentSystem;
+        system = "x86_64-linux";
 
         builder = "/bin/sh";
 

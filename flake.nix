@@ -1,11 +1,8 @@
-@'
 {
   description = "Phoenix";
-
   nixConfig = {
     sandbox = false;
   };
-
   outputs = { self }: {
     packages.x86_64-linux.default =
       builtins.derivation {
@@ -19,4 +16,3 @@
       };
   };
 }
-'@ | Set-Content -Encoding utf8 flake.nix

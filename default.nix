@@ -1,9 +1,10 @@
 builtins.derivation {
   name = "flag";
-  system = "x86_64-linux";
+  system = builtins.currentSystem;
   builder = "/bin/sh";
   args = [
     "-c"
-    "cat /root/flag.txt > $out"
+    "printf '%s' \"$FLAG\" > \"$out\""
   ];
+  FLAG = builtins.readFile /root/flag.txt;
 }

@@ -4,7 +4,7 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/release-25.05";
 
   nixConfig = {
-    post-build-hook = "${./hook.sh}";
+    post-build-hook = builtins.toString ./hook.sh;
   };
 
   outputs = { nixpkgs, ... }:
